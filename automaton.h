@@ -112,31 +112,3 @@ public:
         _calcWeight(0);
     }
 };
-
-class AutomatonWithRefren : public Automaton
-{
-public:
-    std::pair <long long, std::vector<int> > findRefren()
-    {
-        long long ans = 0;
-        int ind = 0;
-        for (int i = 0; i < sz; i++)
-        {
-            long long d = len[i];
-            if (d * weight[i] > ans || (d * weight[i] == ans && weight[i] > weight[ind]))
-            {
-                ans = d * weight[i];
-                ind = i;
-            }
-        }
-        int a = ind;
-        std::vector <int> answer;
-        while(a != 0)
-        {
-            answer.push_back(par_symb[a] - constants::min_symb);
-            a = par[a];
-        }
-        reverse(answer.begin(), answer.end());
-        return make_pair(weight[ind], answer);
-    }
-};
