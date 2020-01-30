@@ -5,9 +5,10 @@
 const int MAXN = 100000;
 const int INF = 1000000000;
 
-struct Dinic {
-
-    struct edge {
+struct Dinic
+{
+    struct edge
+    {
         int a, b, cap, flow;
     };
 
@@ -15,7 +16,8 @@ struct Dinic {
     std::vector<edge> e;
     std::vector<int> g[MAXN];
 
-    void add_edge(int a, int b, int cap) {
+    void add_edge(int a, int b, int cap)
+    {
         edge e1 = {a, b, cap, 0};
         edge e2 = {b, a, cap, 0};
         g[a].push_back((int) e.size());
@@ -24,17 +26,21 @@ struct Dinic {
         e.push_back(e2);
     }
 
-    bool bfs() {
+    bool bfs()
+    {
         int qh = 0, qt = 0;
         q[qt++] = s;
         memset(d, -1, n * sizeof d[0]);
         d[s] = 0;
-        while (qh < qt && d[t] == -1) {
+        while (qh < qt && d[t] == -1)
+        {
             int v = q[qh++];
-            for (size_t i = 0; i < g[v].size(); ++i) {
+            for (size_t i = 0; i < g[v].size(); ++i)
+            {
                 int id = g[v][i],
                         to = e[id].b;
-                if (d[to] == -1 && e[id].flow < e[id].cap) {
+                if (d[to] == -1 && e[id].flow < e[id].cap)
+                {
                     q[qt++] = to;
                     d[to] = d[v] + 1;
                 }
@@ -43,10 +49,12 @@ struct Dinic {
         return (d[t] != -1);
     }
 
-    int dfs(int v, int flow) {
+    int dfs(int v, int flow)
+    {
         if (!flow) return 0;
         if (v == t) return flow;
-        for (; ptr[v] < (int) g[v].size(); ++ptr[v]) {
+        for (; ptr[v] < (int) g[v].size(); ++ptr[v])
+        {
             int id = g[v][ptr[v]],
                     to = e[id].b;
             if (d[to] != d[v] + 1) continue;
@@ -60,9 +68,11 @@ struct Dinic {
         return 0;
     }
 
-    int max_flow() {
+    int max_flow()
+    {
         int flow = 0;
-        for (;;) {
+        for (;;)
+        {
             if (!bfs()) break;
             memset(ptr, 0, n * sizeof ptr[0]);
             while (int pushed = dfs(s, INF))
